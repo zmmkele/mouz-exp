@@ -1,0 +1,67 @@
+//zoj 1042
+//3228073   2013-03-29 11:42:21 	Accepted 	1042 	C++ 	0 	180 	zmmkele
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+
+char str[81];
+int subs1[81],subs2[81],subs3[81];
+
+void ChangeOrder(char* str,int* arr,int k,int len)
+{
+	int i;
+	char buf[81];
+	for(i=0;i<len;i++)
+		buf[i]=str[arr[i]];
+	for(i=0;i<len;i++)
+		str[arr[i]]=buf[abs(i+len-k)%len];
+}
+
+int main()
+{
+	int k1,k2,k3,len,i,j,k,pa1,pa2,pa3;
+	char t;
+#ifdef _MDebug
+	FILE *file=freopen("input.txt","r",stdin);
+#endif
+	while(1)
+	{
+		scanf("%d %d %d",&k1,&k2,&k3);
+		if(!k1&&!k2&&!k3)
+			break;
+		pa1=pa2=pa3=0;
+		scanf(" %s",str);
+		len=strlen(str);
+		for(i=0;i<len;i++)
+		{
+			if(str[i]>='a'&&str[i]<='i')
+				subs1[pa1++]=i;
+			else if(str[i]>='j'&&str[i]<='r')
+				subs2[pa2++]=i;
+			else
+				subs3[pa3++]=i;
+		}
+		subs1[pa1]=subs2[pa2]=subs3[pa3]=0;
+		if(pa1)
+		{
+			k1%=pa1;
+			ChangeOrder(str,subs1,k1,pa1);
+		}
+		if(pa2)
+		{
+			k2%=pa2;
+			ChangeOrder(str,subs2,k2,pa2);
+		}
+		if(pa3)
+		{
+			k3%=pa3;
+			ChangeOrder(str,subs3,k3,pa3);
+		}
+		printf("%s\n",str);
+	}
+#ifdef _MDebug
+	fclose(file);
+#endif
+	return 0;
+}
